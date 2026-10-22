@@ -1,0 +1,20 @@
+# LaTeX build outputs (generated in CI)
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+resume.pdf
+.DS_Store
+
+# Astro
+node_modules/
+.astro/
+dist/
+astro-temp/
+
+# Published posts are copied from the private content repository.
+src/content/blog/**
+!src/content/blog/.gitkeep

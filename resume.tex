@@ -1,0 +1,84 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[margin=0.62in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[default]{sourcesanspro}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[colorlinks=true,urlcolor=mutedblue]{hyperref}
+\usepackage{xcolor}
+\definecolor{mutedblue}{HTML}{51758B}
+\usepackage{tabularx}
+\usepackage{microtype}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=1.15em,topsep=3pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\titleformat{\section}{\bfseries\normalsize\uppercase}{}{0pt}{}[\titlerule]
+\titlespacing*{\section}{0pt}{13pt}{6pt}
+\newcommand{\entry}[2]{\noindent\begin{tabularx}{\textwidth}{@{}Xr@{}}\textbf{#1} & #2\\\end{tabularx}}
+\begin{document}
+\begin{center}
+{\Large\bfseries Ziyi Weng}\\[4pt]
+\href{mailto:ziyiweng39@gmail.com}{ziyiweng39@gmail.com}\quad|\quad
+\href{https://github.com/ziyiweng}{GitHub}\quad|\quad
+\href{https://www.linkedin.com/in/ziyiweng}{LinkedIn}
+\end{center}
+\vspace{-6pt}
+
+\section{Education}
+\entry{University of Illinois Urbana-Champaign}{Expected Graduation: May 2030}
+Bachelor of Science in Mathematics
+
+\section{Technical Skills}
+\textbf{Languages:} Python, C++, Rust, Java\\
+\textbf{Frameworks \& Libraries:} PyTorch, NumPy, pandas, Matplotlib\\
+\textbf{Developer Tools:} Git, LaTeX
+
+\section{Relevant Coursework}
+\textbf{Fall 2026:} CS 128 (Introduction to Computer Science II), CS 128H (Honors), MATH 241 (Calculus III), MATH 314 (Introduction to Higher Mathematics)\\
+\textbf{Spring 2027 (Planned):} CS 225 (Data Structures), CS 233 (Computer Architecture), MATH 416 (Abstract Linear Algebra), STAT 400 (Statistics and Probability I)
+
+\section{Research \& Projects}
+\entry{\href{https://github.com/uiuc-2026-code-ada-team10/will-it-fit}{Will-it-fit} $|$ Code Ada 2026 Hackathon}{Oct 2026}
+\begin{itemize}
+\item Built an interactive room design tool using Cursor for AI-assisted development, allowing users to turn 2D floor plans into customizable 3D room layouts.
+\item Defined feature requirements and iteratively tested and refined 3D furniture customization, object manipulation, and boundary collision alerts.
+\end{itemize}
+\vspace{7pt}
+
+\entry{ConvLSTM-Based ENSO Forecasting}{Mar 2026 -- Jul 2026}
+\textit{Co-First Author $|$ Paper accepted at OCEANS 2026 (IEEE)}
+\begin{itemize}
+\item Designed a 49K-parameter ConvLSTM pipeline in PyTorch with wavelet bandpass filtering, spatial self-attention, and PDE-based regularization for long-range ENSO forecasting.
+\item Matched the 18-month forecasting performance of Ham et al. (Nature, 2019) with 40$\times$ fewer parameters and no climate-simulation pretraining.
+\end{itemize}
+\vspace{7pt}
+
+\entry{Mathematics and Statistics Research Challenge}{Jun 2025 -- Aug 2025}
+\textit{Individual Participant $|$ Distinction Award (Top 4\%)}
+\begin{itemize}
+\item Independently investigated a combinatorial optimization problem involving minimum covering sets on a 3D lattice.
+\end{itemize}
+
+\section{Honors \& Awards}
+\entry{Silver Medal, New Zealand Maths Olympiad}{2024, 2025}
+\par\vspace{8pt}\noindent
+\entry{NZMOC Mathematical Olympiad Training Camp}{2024}
+\begin{itemize}
+\item Selected among approximately 25--30 students nationwide for the IMO team selection process.
+\end{itemize}
+
+\section{Leadership \& Activities}
+\entry{Jane Street WiSE Program}{Feb 2026}
+\textit{Participant}
+\begin{itemize}
+\item Explored applications of probability, statistics, and computer science in quantitative trading.
+\end{itemize}
+\vspace{7pt}
+
+\entry{Inter-School Mathematics Olympiad}{Feb 2025 -- Apr 2025}
+\textit{Founder \& Organizer}
+\begin{itemize}
+\item Organized my high school's first participation in ISMO and evaluated 150+ competition submissions from students across New Zealand.
+\end{itemize}
+\end{document}

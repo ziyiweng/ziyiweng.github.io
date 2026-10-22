@@ -1,0 +1,220 @@
+
+---
+import { getCollection } from 'astro:content';
+
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+// Get all blog posts, newest first
+const posts = (await getCollection('blog')).sort(
+  (a, b) =>
+    b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+// Group posts by publication year
+const groupedPosts = new Map<
+  number,
+  typeof posts
+>();
+
+for (const post of posts) {
+  const year = post.data.pubDate.getUTCFullYear();
+
+  if (!groupedPosts.has(year)) {
+    groupedPosts.set(year, []);
+  }
+
+  groupedPosts.get(year)!.push(post);
+}
+
+// Convert groups into a list, newest year first
+const archives = Array.from(groupedPosts.entries())
+  .sort(([yearA], [yearB]) => yearB - yearA)
+  .map(([year, yearPosts]) => ({
+    year,
+    posts: yearPosts,
+  }));
+
+// Display dates without timezone shifts
+function formatDate(date: Date): string {
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+
+  return `${month}-${day}`;
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Blog | ${SITE_TITLE}`}
+      description={SITE_DESCRIPTION}
+    />
+
+    <style>
+      main {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 720px;
+        margin: 3rem auto;
+        padding: 0 1.5rem;
+      }
+
+      .page-title {
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .description {
+        font-family: var(--font-body);
+        color: rgb(var(--gray));
+        font-size: 1rem;
+        margin-bottom: 3.5rem;
+      }
+
+      .year-section {
+        margin-bottom: 3rem;
+      }
+
+      .year-title {
+        font-family: var(--font-heading);
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+        color: rgb(var(--black));
+      }
+
+      .post-list {
+        list-style: none;
+        margin: 0;
+        padding: 0 0 0 1rem;
+      }
+
+      .post-item {
+        display: flex;
+        align-items: baseline;
+        gap: 1.5rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .post-date {
+        flex-shrink: 0;
+        font-family: var(--font-heading);
+        font-size: 0.9rem;
+        color: rgb(var(--gray));
+        font-variant-numeric: tabular-nums;
+      }
+
+      .post-link {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.6;
+        color: rgb(var(--gray-dark));
+        text-decoration: underline;
+        text-decoration-color: #bbbbbb;
+        text-underline-offset: 4px;
+        transition: color 0.2s ease;
+      }
+
+      .post-link:hover {
+        color: var(--accent);
+        text-decoration-color: var(--accent);
+      }
+
+      .empty-message {
+        color: rgb(var(--gray));
+        font-family: var(--font-body);
+      }
+
+      @media (max-width: 600px) {
+        main {
+          margin: 2rem auto;
+          padding: 0 1rem;
+        }
+
+        .page-title {
+          font-size: 2rem;
+        }
+
+        .description {
+          margin-bottom: 2.5rem;
+        }
+
+        .year-title {
+          font-size: 1.25rem;
+        }
+
+        .post-list {
+          padding-left: 0.5rem;
+        }
+
+        .post-item {
+          gap: 1rem;
+        }
+
+        .post-date {
+          font-size: 0.85rem;
+        }
+
+        .post-link {
+          font-size: 0.95rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <Header />
+
+    <main>
+      <h1 class="page-title">Blog</h1>
+
+      <p class="description">
+        Notes on mathematics, computer science, and more.
+      </p>
+
+      {
+        archives.length === 0 ? (
+          <p class="empty-message">
+            No posts yet.
+          </p>
+        ) : (
+          archives.map(({ year, posts }) => (
+            <section class="year-section">
+              <h2 class="year-title">{year}</h2>
+
+              <ul class="post-list">
+                {posts.map((post) => (
+                  <li class="post-item">
+                    <time
+                      class="post-date"
+                      datetime={post.data.pubDate.toISOString().slice(0, 10)}
+                    >
+                      {formatDate(post.data.pubDate)}
+                    </time>
+
+                    <a
+                      class="post-link"
+                      href={`/blog/${post.id}/`}
+                    >
+                      {post.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        )
+      }
+    </main>
+
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,86 @@
+
+---
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header>
+  <nav>
+    <h2>
+      <a href="/blog/">Avery's Blog</a>
+    </h2>
+
+    <div class="nav-links">
+      <HeaderLink href="/blog">Blog</HeaderLink>
+
+      <a
+        href="https://github.com/ziyiweng"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub ↗
+      </a>
+    </div>
+  </nav>
+</header>
+
+<style>
+  header {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 1rem;
+    background: transparent;
+    font-family: var(--font-heading);
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  h2 a {
+    color: rgb(var(--black));
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-links a {
+    color: rgb(var(--gray));
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .nav-links a:hover,
+  h2 a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 480px) {
+    header {
+      padding-top: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      gap: 1rem;
+    }
+  }
+</style>

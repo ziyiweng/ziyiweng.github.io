@@ -1,0 +1,76 @@
+name: Build and publish website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Phase 2B must add the private half of a read-only deploy key as
+      # Actions secret BLOG_CONTENT_SSH_KEY. This step does not create a key.
+      # Sparse checkout materializes published/ only. The key can still read
+      # drafts if a later command asks for them.
+      - name: Fetch published posts
+        uses: actions/checkout@v4
+        with:
+          repository: ziyiweng/ziyiweng-blog-content
+          ref: main
+          ssh-key: ${{ secrets.BLOG_CONTENT_SSH_KEY }}
+          path: blog-content
+          sparse-checkout: published
+          sparse-checkout-cone-mode: true
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Compile LaTeX resume
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: resume.tex
+          latexmk_use_lualatex: false
+
+      - name: Copy resume into Astro
+        run: |
+          mkdir -p public
+          cp resume.pdf public/resume.pdf
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro website
+        env:
+          BLOG_CONTENT_PUBLISHED: ${{ github.workspace }}/blog-content/published
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

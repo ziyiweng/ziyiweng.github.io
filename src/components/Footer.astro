@@ -1,0 +1,78 @@
+
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="footer-inner">
+    <span class="copyright">
+      © {year} Ziyi Weng
+    </span>
+
+    <div class="footer-links">
+      <a
+        href="https://github.com/ziyiweng"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub
+      </a>
+
+      <a href="/rss.xml">
+        RSS
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 720px;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem 2.5rem;
+
+    background: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: rgb(var(--gray));
+  }
+
+  .footer-inner {
+    border-top: 1px solid rgb(var(--gray-light));
+    padding-top: 1.5rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 480px) {
+    .footer-inner {
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .footer-links {
+      gap: 1rem;
+    }
+  }
+</style>
