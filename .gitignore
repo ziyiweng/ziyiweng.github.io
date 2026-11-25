@@ -1,0 +1,10 @@
+# LaTeX build output (the PDF is built by GitHub Actions)
+cv-src/*.aux
+cv-src/*.log
+cv-src/*.out
+cv-src/*.fls
+cv-src/*.fdb_latexmk
+cv-src/*.synctex.gz
+cv-src/*.pdf
+_site/
+.DS_Store

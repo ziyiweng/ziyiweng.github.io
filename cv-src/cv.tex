@@ -1,0 +1,196 @@
+% =====================================================================
+%  Ziyi Weng — Curriculum Vitae
+%  Edit this file and push to `main`. GitHub Actions compiles it and
+%  publishes the PDF at https://ziyiweng.github.io/CV/
+%  Lines marked [TODO: ...] still need real details.
+% =====================================================================
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{navy}{RGB}{38,64,115}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\raggedbottom
+
+% ---------- Section style ----------
+\titleformat{\section}{\color{navy}\large\bfseries}{}{0pt}{}[{\color{navy}\titlerule}]
+\titlespacing*{\section}{0pt}{10pt}{6pt}
+
+\setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=3pt,parsep=0pt,label=\textbullet}
+
+% ---------- Helpers ----------
+% \entry{Title}{Dates}{Subtitle}{Location}
+\newcommand{\entry}[4]{%
+  \par\vspace{3pt}\noindent
+  \textbf{#1}\hfill #2\\
+  \textit{#3}\hfill\textit{#4}\par}
+% \oneline{Left}{Right}
+\newcommand{\oneline}[2]{\par\noindent\begin{tabularx}{\linewidth}{@{}X r@{}}#1 & #2\end{tabularx}\par}
+\newcommand{\sep}{\quad\textperiodcentered\quad}
+\newcommand{\todo}[1]{\textbf{[TODO: #1]}}
+
+\begin{document}
+
+% ---------- Header ----------
+\begin{center}
+  {\LARGE\bfseries Ziyi Weng}\\[4pt]
+  Department of Mathematics, University of Illinois Urbana-Champaign\\
+  \href{mailto:NETID@illinois.edu}{NETID@illinois.edu}\sep
+  \href{mailto:ziyiweng39@gmail.com}{ziyiweng39@gmail.com}\\
+  \href{https://github.com/ziyiweng}{github.com/ziyiweng}\sep
+  \href{https://ziyiweng.github.io}{ziyiweng.github.io}\sep
+  \href{https://linkedin.com/in/USERNAME}{linkedin.com/in/USERNAME}
+\end{center}
+
+% ---------- Research Interests ----------
+\section*{Research Interests}
+AI systems and infrastructure; efficient LLM inference and serving; reliability of LLM agents
+(tool-call failure detection and recovery); physics-informed machine learning.
+
+% ---------- Education ----------
+\section*{Education}
+\entry{University of Illinois Urbana-Champaign}{Aug 2026 -- May 2030 (expected)}
+      {B.S. in Mathematics; planning to transfer into Mathematics \& Computer Science}{Urbana, IL}
+\begin{itemize}
+  \item \textbf{Fall 2026:} CS 128 Honors (Introduction to Computer Science II, Honors section),
+        MATH 241 (Calculus III), MATH 314 (Introduction to Higher Mathematics)
+  \item \textbf{Spring 2027 (planned):} CS 225 (Data Structures), CS 233 (Computer Architecture),
+        MATH 416 (Abstract Linear Algebra), STAT 400 (Statistics and Probability I)
+\end{itemize}
+
+% ---------- Publications ----------
+\section*{Publications}
+\begin{enumerate}[label={[\arabic*]},leftmargin=2em,itemsep=2pt,topsep=2pt]
+  \item \todo{author list as published}$^{*}$. ``\todo{exact paper title}.''
+        In \textit{Proceedings of OCEANS 2026 (IEEE)}. Accepted. ($^{*}$co-first author)
+\end{enumerate}
+
+% ---------- Research Experience ----------
+\section*{Research Experience}
+\entry{ConvLSTM-Based ENSO Forecasting}{Mar 2026 -- Jul 2026}
+      {Co-first author; paper accepted at IEEE OCEANS 2026}{}
+\begin{itemize}
+  \item Designed a 49K-parameter ConvLSTM pipeline in PyTorch for long-range forecasting of the
+        El Ni\~no--Southern Oscillation (ENSO).
+  \item Combined wavelet band-pass filtering, spatial self-attention, and PDE-based regularization,
+        adding a physical constraint to a data-driven model.
+  \item Matched the 18-month forecasting performance of Ham et al.\ (\textit{Nature}, 2019) with
+        40$\times$ fewer parameters and no climate-simulation pretraining.
+\end{itemize}
+
+\entry{\todo{Lab name}, ZJU-UIUC Institute (ZJUI)}{\todo{Summer 2026 dates}}
+      {Undergraduate Research Assistant; advisor: \todo{Prof. name}}{Haining, China}
+\begin{itemize}
+  \item Studied efficient LLM inference methods, including speculative decoding (SD), RSD, and
+        GlimpRouter, which routes each reasoning step between a small and a large model based on
+        the entropy of the step's first token.
+\end{itemize}
+
+\entry{Mathematics and Statistics Research Challenge}{Jun 2025 -- Aug 2025}
+      {Individual participant; Distinction Award (top 4\%)}{}
+\begin{itemize}
+  \item Independently investigated a combinatorial optimization problem on minimum covering sets
+        in a 3D lattice.
+\end{itemize}
+
+% ---------- Industry Experience ----------
+\section*{Industry Experience}
+\entry{\todo{Company name}}{\todo{e.g. Jun 2026 -- Jul 2026}}
+      {Robot Learning Intern, tech media startup}{\todo{City}}
+\begin{itemize}
+  \item Set up an SO-101 leader--follower robot arm with Hugging Face LeRobot: motor calibration,
+        teleoperation, and a two-camera rig (front and overhead, 640$\times$480 at 20 fps).
+  \item Collected 150 teleoperated demonstrations (25-second episodes) for a tape-handling
+        manipulation task, resuming interrupted recording sessions without losing data.
+  \item Trained ACT imitation-learning policies on Colab GPUs with Weights \& Biases tracking,
+        saving checkpoints up to 14K steps; patched an unused-dependency import that broke
+        LeRobot's policy factory in Colab.
+  \item Deployed trained policies on the physical arm and evaluated them through real-robot rollouts.
+\end{itemize}
+
+% ---------- Projects ----------
+\section*{Projects}
+\entry{Mini-Redis: Concurrent Key-Value Server in Rust}{Fall 2026}
+      {Team project, CS 128 Honors}{}
+\begin{itemize}
+  \item Built a command parser that turns text commands (SET/GET/DEL with optional expiration)
+        into a typed \texttt{Command} enum and returns specific \texttt{ParseError}s instead of
+        panicking, so the server keeps running on bad input.
+  \item Implemented a hash-map storage layer with per-key optional expiration using lazy
+        expiration (keys are checked and removed only when accessed).
+  \item Built a TCP server that spawns a thread per client and shares storage across threads
+        through \texttt{Arc<Mutex>}.
+  \item Next: proper clients, automated multi-client stress tests, and persistence to disk.
+\end{itemize}
+
+\entry{Will-it-fit}{Oct 2026}{Code Ada 2026 Hackathon}{}
+\begin{itemize}
+  \item Built an interactive room-design tool that turns 2D floor plans into customizable 3D room
+        layouts, using Cursor for AI-assisted development.
+  \item Defined feature requirements and iteratively tested 3D furniture customization, object
+        manipulation, and boundary-collision alerts.
+\end{itemize}
+
+% ---------- Skills ----------
+\section*{Technical Skills}
+\begin{tabular}{@{}l l@{}}
+  \textbf{Languages:}  & Python, C++, Rust, Java \\
+  \textbf{ML \& Data:} & PyTorch, NumPy, pandas, Matplotlib, Weights \& Biases \\
+  \textbf{Robotics:}   & Hugging Face LeRobot, OpenCV \\
+  \textbf{Tools:}      & Git, \LaTeX
+\end{tabular}
+
+% ---------- Research Ideas ----------
+\section*{Research Ideas}
+\begin{itemize}
+  \item \textbf{Proposed direction: tool-call failure handling in LLM agents.} Inspired by
+        GlimpRouter's entropy-based routing. Exploring whether lightweight signals can attribute
+        where and why a tool call failed and route it to a targeted repair strategy, instead of a
+        blind retry or generic reflection.
+\end{itemize}
+
+% ---------- Honors ----------
+\section*{Honors \& Awards}
+\oneline{\textbf{Silver Medal}, New Zealand Mathematical Olympiad}{2024, 2025}
+\oneline{\textbf{NZMOC Mathematical Olympiad Training Camp}: selected among about 25--30 students
+         nationwide for the IMO team selection process}{2024}
+\oneline{\textbf{Distinction Award (top 4\%)}, Mathematics and Statistics Research Challenge}{2025}
+
+% ---------- Leadership ----------
+\section*{Leadership}
+\entry{Inter-School Mathematics Olympiad (ISMO)}{Feb 2025 -- Apr 2025}{Founder \& Organizer}{}
+\begin{itemize}
+  \item Organized my high school's first participation in ISMO and evaluated 150+ competition
+        submissions from students across New Zealand.
+\end{itemize}
+
+\entry{High School Mathematics Club}{\todo{dates}}{Founder}{}
+\begin{itemize}
+  \item Founded the club and ran weekly olympiad problem-solving sessions; organized a school math
+        week with puzzles and daily quizzes to bring in students new to competitions.
+  \item The next year, the school earned 3 High Distinctions and 3 Distinctions in the Australian
+        Mathematics Competition, up from a single award the year before.
+\end{itemize}
+
+% ---------- Programs ----------
+\section*{Programs}
+\entry{Jane Street WiSE Program}{Feb 2026}{Participant}{}
+\begin{itemize}
+  \item Explored applications of probability, statistics, and computer science in quantitative trading.
+\end{itemize}
+
+\vfill
+\begin{center}\footnotesize\color{gray}
+  Last updated: \today\sep Latest version: \href{https://ziyiweng.github.io/CV/}{ziyiweng.github.io/CV}
+\end{center}
+
+\end{document}

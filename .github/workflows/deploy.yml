@@ -1,0 +1,58 @@
+# Compiles cv-src/cv.tex and deploys the site (with the fresh PDF) to GitHub Pages.
+# Runs on every push to main, or manually from the Actions tab.
+name: Build CV & deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile LaTeX CV
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: cv.tex
+          working_directory: cv-src
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          # Copy everything public (add new top-level files/folders here if you add more pages)
+          shopt -s extglob
+          cp -r !(_site|cv-src|README.md) _site/
+          cp cv-src/cv.pdf _site/CV/Ziyi_Weng_CV.pdf
+          # Stamp the "last updated" date on the CV page
+          UPDATED=$(TZ=America/Chicago date '+%B %-d, %Y')
+          sed -i "s/{{LAST_UPDATED}}/${UPDATED}/" _site/CV/index.html
+          # Lowercase /cv redirects to /CV (GitHub Pages paths are case-sensitive)
+          mkdir -p _site/cv
+          printf '<!DOCTYPE html><meta http-equiv="refresh" content="0; url=../CV/"><link rel="canonical" href="../CV/">' > _site/cv/index.html
+          touch _site/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
